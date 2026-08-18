@@ -14,6 +14,7 @@ function showScene(index) {
   previous.disabled = current === 0;
   next.disabled = current === scenes.length - 1;
   document.title = `${scenes[current].dataset.label} | Delivery at Race Pace`;
+  document.body.classList.toggle("dark-navigation", [1, 4, 6].includes(current));
 }
 
 previous.addEventListener('click', () => showScene(current - 1));
@@ -21,14 +22,9 @@ next.addEventListener('click', () => showScene(current + 1));
 document.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowRight' || event.key === ' ') { event.preventDefault(); showScene(current + 1); }
   if (event.key === 'ArrowLeft') { event.preventDefault(); showScene(current - 1); }
-  if (event.key.toLowerCase() === 'p') practice.click();
+
 });
-practice.addEventListener('click', () => {
-  const enabled = document.body.classList.toggle('practice');
-  practice.classList.toggle('active', enabled);
-  practice.setAttribute('aria-pressed', enabled);
-  practice.textContent = enabled ? 'Hide notes' : 'Practice mode';
-});
+
 showScene(0);
 
 const evidencePanel = document.getElementById('evidencePanel');
