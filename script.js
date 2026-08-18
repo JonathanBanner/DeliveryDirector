@@ -14,7 +14,7 @@ function showScene(index) {
   previous.disabled = current === 0;
   next.disabled = current === scenes.length - 1;
   document.title = `${scenes[current].dataset.label} | Delivery at Race Pace`;
-  document.body.classList.toggle("dark-navigation", [1, 4, 6].includes(current));
+  document.body.classList.toggle("dark-navigation", [1, 2, 5, 7].includes(current));
 }
 
 previous.addEventListener('click', () => showScene(current - 1));
@@ -41,3 +41,24 @@ document.querySelectorAll('.evidence-trigger').forEach((trigger) => {
 });
 
 closeEvidence.addEventListener('click', () => { evidencePanel.hidden = true; });
+const imageModal = document.getElementById('imageModal');
+const imageModalPreview = document.getElementById('imageModalPreview');
+const imageModalClose = document.getElementById('imageModalClose');
+
+document.querySelectorAll('.image-popup-trigger').forEach((trigger) => {
+  trigger.addEventListener('click', () => {
+    imageModalPreview.src = trigger.dataset.image;
+    imageModalPreview.alt = trigger.dataset.alt;
+    imageModal.hidden = false;
+    imageModalClose.focus();
+  });
+});
+
+function closeImageModal() {
+  imageModal.hidden = true;
+  imageModalPreview.src = '';
+}
+
+imageModalClose.addEventListener('click', closeImageModal);
+imageModal.addEventListener('click', (event) => { if (event.target === imageModal) closeImageModal(); });
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !imageModal.hidden) closeImageModal(); });
